@@ -15,6 +15,7 @@ import {
   Award,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+// @ts-ignore
 import confetti from 'canvas-confetti';
 
 const initialCandidates = [
@@ -26,17 +27,17 @@ const initialCandidates = [
   { id: 6, operator: 'Quest Tours', category: 'Cultura' },
   { id: 7, operator: 'Spiritus Tours', category: 'Cultura' },
   { id: 8, operator: 'Braga Tours', category: 'Tours' },
-  { id: 9, operator: 'Destino4all – Turismo para Todos', category: 'Inclusão' },
+  { id: 9, operator: 'Destino4all - Turismo para Todos', category: 'Inclusao' },
   { id: 10, operator: 'Picoto Park', category: 'Aventura' },
   { id: 11, operator: 'Cerveja Letra', category: 'Gastronomia' },
-  { id: 12, operator: 'Doçaria Cruz da Pedra', category: 'Gastronomia' },
+  { id: 12, operator: 'Docaria Cruz da Pedra', category: 'Gastronomia' },
   { id: 13, operator: 'Restaurante O Gato do Rio', category: 'Gastronomia' },
   { id: 14, operator: 'Quinta Cova da Raposa', category: 'Enoturismo' },
-  { id: 15, operator: 'Solar das Bouças', category: 'Enoturismo' },
-  { id: 16, operator: 'Inato Bistrô', category: 'Gastronomia' },
+  { id: 15, operator: 'Solar das Boucas', category: 'Enoturismo' },
+  { id: 16, operator: 'Inato Bistro', category: 'Gastronomia' },
   { id: 17, operator: 'Brucelle', category: 'Cultura' },
-  { id: 18, operator: 'Meliá Braga Hotel & Spa', category: 'Alojamento' },
-  { id: 19, operator: 'Innside by Meliá Braga', category: 'Alojamento' },
+  { id: 18, operator: 'Melia Braga Hotel & Spa', category: 'Alojamento' },
+  { id: 19, operator: 'Innside by Melia Braga', category: 'Alojamento' },
   { id: 20, operator: 'Porta Nova Collection House', category: 'Alojamento' },
   { id: 21, operator: 'Centro de Juventude de Braga', category: 'Institucional' },
   { id: 22, operator: 'Museu dos Biscainhos', category: 'Institucional' },
@@ -47,10 +48,10 @@ export default function SorteioBraga() {
   const [candidates, setCandidates] = useState(initialCandidates);
   const [isSpinning, setIsSpinning] = useState(false);
   const [displayStep, setDisplayStep] = useState('');
-  const [winner, setWinner] = useState(null);
-  const [history, setHistory] = useState([]);
+  const [winner, setWinner] = useState(null as any);
+  const [history, setHistory] = useState([] as any[]);
   const [mounted, setMounted] = useState(false);
-  const [time, setTime] = useState(null);
+  const [time, setTime] = useState(null as Date | null);
 
   useEffect(() => {
     setMounted(true);
@@ -88,7 +89,6 @@ export default function SorteioBraga() {
     }, 3500);
   };
 
-  // Previne erros de build/hidratação no Vercel
   if (!mounted) return null;
 
   return (
@@ -133,7 +133,7 @@ export default function SorteioBraga() {
               {history.length === 0 && (
                 <div className="py-20 text-center opacity-20 flex flex-col items-center gap-4">
                   <Award size={40} />
-                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Aguardando Seleção</p>
+                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Extração pendente</p>
                 </div>
               )}
             </AnimatePresence>
@@ -143,7 +143,7 @@ export default function SorteioBraga() {
         <div className="p-6 border-t border-slate-100">
           <div className="bg-slate-900 rounded-2xl p-4 flex items-center gap-3">
             <ShieldCheck className="text-red-600" size={20} />
-            <p className="text-[10px] text-slate-400 font-bold leading-tight">Verificado por <br /><span className="text-white">Município de Braga</span></p>
+            <p className="text-[10px] text-slate-400 font-bold leading-tight">Verificado por <br /><span className="text-white">Municipio de Braga</span></p>
           </div>
         </div>
       </aside>
@@ -154,7 +154,7 @@ export default function SorteioBraga() {
             <div className="h-8 w-[2px] bg-red-600" />
             <div>
               <h2 className="text-xl font-black text-slate-900 tracking-tighter uppercase italic leading-none">
-                Sorteio Oficial <span className="text-red-600">Experiências Turísticas</span>
+                Sorteio Oficial <span className="text-red-600">Experiencias Turisticas</span>
               </h2>
               <div className="flex items-center gap-2 text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">
                 <MapPin size={10} className="text-red-600" />
@@ -165,9 +165,9 @@ export default function SorteioBraga() {
 
           <div className="flex items-center gap-6">
             <div className="text-right">
-              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Sessão Oficial</p>
+              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Sessao Oficial</p>
               <div className="text-lg font-black tabular-nums text-slate-800 leading-none">
-                {time ? time.toLocaleTimeString() : '--:--:--'}
+                {time ? time.toLocaleTimeString('pt-PT') : '--:--:--'}
               </div>
             </div>
             <div className="bg-slate-100 px-4 py-2 rounded-xl flex items-center gap-2 border border-slate-200">
@@ -182,9 +182,10 @@ export default function SorteioBraga() {
             <div className="col-span-12 lg:col-span-8">
               <div className="relative bg-slate-950 rounded-[4rem] p-2 shadow-2xl overflow-hidden group">
                 <div className="bg-gradient-to-tr from-[#020617] via-[#0f172a] to-[#1e293b] rounded-[3.8rem] min-h-[550px] flex flex-col items-center justify-center relative">
+                  
                   <div className={`absolute inset-0 transition-all duration-1000 flex items-center justify-center ${isSpinning ? 'opacity-20 scale-125' : winner ? 'opacity-5 scale-90' : 'opacity-10'}`}>
                     <div className="relative w-[400px] h-[400px]">
-                      <Image src="/marca-visit-braga.png" alt="Background Logo" fill className="object-contain grayscale invert" />
+                      <Image src="/marca-visit-braga.png" alt="Watermark" fill className="object-contain grayscale invert" />
                     </div>
                   </div>
 
@@ -195,19 +196,19 @@ export default function SorteioBraga() {
                           <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: 'linear' }} className="w-32 h-32 border-[2px] border-white/5 border-t-red-600 rounded-full mx-auto shadow-[0_0_30px_rgba(220,38,38,0.3)]" />
                           <Zap className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-red-600" size={32} />
                         </div>
-                        <div className="h-20 flex items-center justify-center">
-                          <motion.h3 key={displayStep} initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="text-3xl font-black text-white uppercase italic tracking-tighter">
+                        <div className="h-20 flex items-center justify-center px-6">
+                          <motion.h3 key={displayStep} initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="text-3xl font-black text-white uppercase italic tracking-tighter text-center">
                             {displayStep}
                           </motion.h3>
                         </div>
                       </motion.div>
                     ) : winner ? (
-                      <motion.div key="winner" initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="z-10 text-center px-10">
+                      <motion.div key="winner" initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="z-10 text-center px-10 w-full">
                         <div className="bg-white rounded-[3.5rem] p-12 shadow-2xl border-b-[8px] border-red-600 max-w-xl mx-auto">
                           <div className="inline-flex p-4 bg-yellow-500 rounded-2xl mb-6 -mt-20 shadow-xl">
                             <Trophy className="text-white" size={32} />
                           </div>
-                          <h4 className="text-5xl font-black text-slate-900 uppercase tracking-tighter leading-none mb-6">{winner.operator}</h4>
+                          <h4 className="text-4xl md:text-5xl font-black text-slate-900 uppercase tracking-tighter leading-none mb-6">{winner.operator}</h4>
                           <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{winner.category}</span>
                         </div>
                       </motion.div>
@@ -227,7 +228,7 @@ export default function SorteioBraga() {
                       className={`absolute bottom-12 px-12 py-6 rounded-3xl font-black text-sm uppercase tracking-[0.3em] transition-all z-20 
                         ${history.length >= 5 ? 'bg-slate-800 text-slate-500' : 'bg-red-600 text-white shadow-2xl shadow-red-900/40 hover:bg-red-500'}`}
                     >
-                      {history.length >= 5 ? 'Extrações Concluídas' : winner ? 'Próximo Operador' : 'Iniciar Sorteio'}
+                      {history.length >= 5 ? 'Concluido' : winner ? 'Seguinte' : 'Começar'}
                     </motion.button>
                   )}
                 </div>
@@ -237,7 +238,7 @@ export default function SorteioBraga() {
             <div className="col-span-12 lg:col-span-4">
               <div className="bg-white rounded-[3rem] p-8 border border-slate-200 h-[550px] flex flex-col shadow-sm">
                 <div className="mb-6 flex items-center justify-between">
-                  <h3 className="text-sm font-black uppercase text-slate-900 tracking-tighter italic">Candidatos Ativos</h3>
+                  <h3 className="text-sm font-black uppercase text-slate-900 tracking-tighter italic">Ativos</h3>
                   <div className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center text-xs font-black">{candidates.length}</div>
                 </div>
                 <div className="flex-1 overflow-y-auto pr-2 space-y-2 custom-scrollbar">
@@ -254,8 +255,8 @@ export default function SorteioBraga() {
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 pb-10">
             {[
-              { label: 'Total Base', val: initialCandidates.length, icon: <Users size={16} /> },
-              { label: 'Em Processo', val: candidates.length, icon: <Activity size={16} /> },
+              { label: 'Total', val: initialCandidates.length, icon: <Users size={16} /> },
+              { label: 'Pool', val: candidates.length, icon: <Activity size={16} /> },
               { label: 'Sorteados', val: history.length, icon: <Trophy size={16} /> },
               { label: 'Meta', val: '05', icon: <ArrowRight size={16} /> },
             ].map((stat, i) => (
