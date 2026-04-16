@@ -107,7 +107,7 @@ export default function SorteioBraga() {
         <div className="p-8 border-b border-slate-100">
           <div className="relative w-full h-16">
             <Image
-              src="/Marca VisitBraga.png"
+              src="/marca-visit-braga.png"
               alt="Logo"
               fill
               className="object-contain"
@@ -226,7 +226,7 @@ export default function SorteioBraga() {
                   >
                     <div className="relative w-[400px] h-[400px]">
                       <Image
-                        src="/Marca VisitBraga.png"
+                        src="/marca-visit-braga.png"
                         alt="Watermark"
                         fill
                         className="object-contain grayscale invert"
