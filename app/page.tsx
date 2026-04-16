@@ -460,7 +460,7 @@ export default function SorteioBraga() {
                           </div>
                           <div className="absolute inset-0 bg-red-500/10 blur-2xl -z-10 animate-pulse" />
                         </div>
-                        <p className="text-slate-900 font-black uppercase tracking-[0.8em] text-[13px] italic">Sistema em Prontidão</p>
+                        <p className="text-slate-900 font-black uppercase tracking-[0.8em] text-[13px] italic">Sorteio Pronto</p>
                       </motion.div>
                     )}
                   </AnimatePresence>
