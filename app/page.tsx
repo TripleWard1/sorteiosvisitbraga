@@ -37,7 +37,6 @@ const initialCandidates = [
   { id: 23, operator: 'Museu de Arqueologia D. Diogo de Sousa', category: 'Institucional' },
 ];
 
-// Easing function: starts fast, ends slow (ease-out cubic)
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 
 export default function SorteioBraga() {
@@ -155,7 +154,7 @@ export default function SorteioBraga() {
           <div className="flex items-center gap-3 px-2 border-l-4 border-red-600 pl-4 mb-8 relative">
             <div className="absolute -left-1 top-0 bottom-0 w-[4px] bg-red-500 blur-sm opacity-60" />
             <Hash size={14} className="text-red-500" />
-            <span className="text-[11px] font-black text-white uppercase tracking-[0.25em]">Histórico de Extração</span>
+            <span className="text-[11px] font-black text-white uppercase tracking-[0.25em]">Experiências Turísticas</span>
           </div>
 
           <div className="space-y-4">
@@ -198,7 +197,7 @@ export default function SorteioBraga() {
             </div>
             <div>
               <p className="text-[10px] text-white font-black uppercase tracking-wider">Município de Braga</p>
-              <p className="text-[8px] text-slate-500 font-bold uppercase mt-1 tracking-widest">Gala de Sorteio 2026</p>
+              <p className="text-[8px] text-slate-500 font-bold uppercase mt-1 tracking-widest">Sorteio Público</p>
             </div>
           </div>
         </div>
@@ -213,11 +212,11 @@ export default function SorteioBraga() {
             <div className="flex items-center gap-3">
               <div className="w-1.5 h-6 bg-gradient-to-b from-red-500 to-red-700 rounded-full shadow-[0_0_12px_rgba(239,68,68,0.5)]" />
               <h1 className="text-2xl font-black text-slate-950 uppercase tracking-tighter italic leading-none">
-                Sorteio Operadores <span className="text-red-600 ml-1">Extração Direta</span>
+                Sorteio Operadores <span className="text-red-600 ml-1">Experiências Turísticas</span>
               </h1>
             </div>
             <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] flex items-center gap-2 mt-2.5 ml-4">
-              <MapPin size={12} className="text-red-500" /> Auditório Municipal • Braga, PT
+              <MapPin size={12} className="text-red-500" /> Auditório Posto de Turismo • Braga, PT
             </p>
           </div>
 
@@ -294,26 +293,36 @@ export default function SorteioBraga() {
             ))}
           </div>
 
+          {/* =========================================================
+              ARENA + LISTA
+              FIX CRÍTICO: arena sem overflow-hidden, sem max-w no winner card.
+              O winner card ocupa TODA a largura disponível da arena.
+          ========================================================= */}
           <div className="grid grid-cols-12 gap-10">
-            {/* ARENA CENTRAL — altura aumentada de 540 para 680 para não cortar o vencedor */}
+            {/* ARENA CENTRAL */}
             <div className="col-span-8">
-              <div className="bg-gradient-to-br from-white via-white to-slate-50/70 rounded-[3rem] border border-slate-200/80 shadow-[0_30px_60px_-20px_rgba(15,23,42,0.15)] min-h-[680px] relative flex flex-col items-center justify-center px-12 py-16 group overflow-hidden">
+              <div className="bg-gradient-to-br from-white via-white to-slate-50/70 rounded-[3rem] border border-slate-200/80 shadow-[0_30px_60px_-20px_rgba(15,23,42,0.15)] min-h-[680px] relative flex flex-col items-center justify-center p-10 group">
 
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] pointer-events-none" style={{
-                  background: 'radial-gradient(circle, rgba(239,68,68,0.06) 0%, transparent 60%)'
-                }} />
+                {/* Decorative glow — fica por baixo com pointer-events-none */}
+                <div className="absolute inset-0 rounded-[3rem] overflow-hidden pointer-events-none">
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px]" style={{
+                    background: 'radial-gradient(circle, rgba(239,68,68,0.06) 0%, transparent 60%)'
+                  }} />
 
-                <div className="absolute top-6 left-6 w-12 h-12 border-t-2 border-l-2 border-red-500/20 rounded-tl-2xl" />
-                <div className="absolute top-6 right-6 w-12 h-12 border-t-2 border-r-2 border-red-500/20 rounded-tr-2xl" />
-                <div className="absolute bottom-6 left-6 w-12 h-12 border-b-2 border-l-2 border-red-500/20 rounded-bl-2xl" />
-                <div className="absolute bottom-6 right-6 w-12 h-12 border-b-2 border-r-2 border-red-500/20 rounded-br-2xl" />
-
-                <div className="absolute inset-0 flex items-center justify-center opacity-[0.035] pointer-events-none grayscale select-none overflow-hidden">
-                  <div className="relative w-[500px] h-[500px]">
-                    <Image src="/marca-visit-braga.png" alt="" fill className="object-contain" />
+                  <div className="absolute inset-0 flex items-center justify-center opacity-[0.035] grayscale select-none">
+                    <div className="relative w-[500px] h-[500px]">
+                      <Image src="/marca-visit-braga.png" alt="" fill className="object-contain" />
+                    </div>
                   </div>
                 </div>
 
+                {/* Corner brackets */}
+                <div className="absolute top-6 left-6 w-12 h-12 border-t-2 border-l-2 border-red-500/20 rounded-tl-2xl pointer-events-none" />
+                <div className="absolute top-6 right-6 w-12 h-12 border-t-2 border-r-2 border-red-500/20 rounded-tr-2xl pointer-events-none" />
+                <div className="absolute bottom-6 left-6 w-12 h-12 border-b-2 border-l-2 border-red-500/20 rounded-bl-2xl pointer-events-none" />
+                <div className="absolute bottom-6 right-6 w-12 h-12 border-b-2 border-r-2 border-red-500/20 rounded-br-2xl pointer-events-none" />
+
+                {/* CONTEÚDO — ocupa a largura total da arena */}
                 <div className="relative w-full flex flex-col items-center z-10">
                   <AnimatePresence mode="wait">
                     {isSpinning ? (
@@ -323,7 +332,7 @@ export default function SorteioBraga() {
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.96 }}
                         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                        className="text-center py-4 w-full max-w-2xl"
+                        className="text-center py-8 w-full"
                       >
                         <div className="relative mb-10">
                           <motion.div
@@ -352,9 +361,8 @@ export default function SorteioBraga() {
 
                         <span className="text-[10px] font-black text-red-600 uppercase tracking-[0.6em] mb-6 block opacity-70">A Selecionar</span>
 
-                        {/* Display slot-machine com blur dinâmico baseado na velocidade */}
                         <div
-                          className="relative h-16 flex items-center justify-center overflow-hidden"
+                          className="relative h-16 flex items-center justify-center overflow-hidden px-4"
                           style={{
                             filter: `blur(${spinIntensity * 2.5}px)`,
                             transition: 'filter 0.1s linear',
@@ -375,17 +383,19 @@ export default function SorteioBraga() {
                         </div>
                       </motion.div>
                     ) : winner ? (
+                      // ======== WINNER CARD — ocupa largura total, sem max-w ========
                       <motion.div
                         key="winner"
                         initial={{ y: 30, opacity: 0, scale: 0.95 }}
                         animate={{ y: 0, opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.98 }}
                         transition={{ type: 'spring', stiffness: 180, damping: 22 }}
-                        className="w-full max-w-2xl px-4 pt-8"
+                        className="w-full pt-10"
                       >
-                        <div className="bg-gradient-to-br from-white via-white to-slate-50/80 backdrop-blur-md border border-white p-14 rounded-[3.5rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.15)] relative text-center ring-1 ring-slate-200/50 overflow-hidden">
+                        <div className="bg-gradient-to-br from-white via-white to-slate-50/80 border border-white px-12 py-14 rounded-[3rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.15)] relative text-center ring-1 ring-slate-200/50">
 
-                          <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-[3.5rem]">
+                          {/* Shine sweep — contido dentro do card */}
+                          <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-[3rem]">
                             <motion.div
                               initial={{ x: '-100%' }}
                               animate={{ x: '200%' }}
@@ -394,8 +404,12 @@ export default function SorteioBraga() {
                             />
                           </div>
 
-                          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-red-500/10 rounded-full blur-3xl pointer-events-none" />
+                          {/* Glow aura — contido */}
+                          <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-[3rem]">
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-red-500/10 rounded-full blur-3xl" />
+                          </div>
 
+                          {/* Trophy floating badge */}
                           <motion.div
                             initial={{ scale: 0, rotate: -180 }}
                             animate={{ scale: 1, rotate: 0 }}
@@ -406,13 +420,13 @@ export default function SorteioBraga() {
                             <div className="absolute -inset-1 bg-red-500 blur-xl opacity-40 -z-10 rounded-[2rem]" />
                           </motion.div>
 
-                          <span className="text-[10px] font-black text-red-600 uppercase tracking-[0.8em] mb-6 block opacity-70 mt-4 relative z-10">Operador Selecionado</span>
+                          <span className="text-[10px] font-black text-red-600 uppercase tracking-[0.8em] mb-6 block opacity-70 mt-6 relative z-10">Operador Selecionado</span>
 
                           <motion.h4
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.35 }}
-                            className="text-5xl font-black text-slate-950 uppercase tracking-tighter italic leading-tight mb-10 relative z-10"
+                            className="text-5xl font-black text-slate-950 uppercase tracking-tighter italic leading-[1.05] mb-10 relative z-10 break-words"
                           >
                             {winner.operator}
                           </motion.h4>
@@ -451,7 +465,7 @@ export default function SorteioBraga() {
                     )}
                   </AnimatePresence>
 
-                  <div className="mt-12 relative z-10">
+                  <div className="mt-10 relative z-10">
                     {!isSpinning && (
                       <motion.button
                         initial={{ opacity: 0, y: 10 }}
@@ -484,7 +498,7 @@ export default function SorteioBraga() {
               </div>
             </div>
 
-            {/* LISTA OPERADORES — altura sincronizada a 680 */}
+            {/* LISTA OPERADORES */}
             <div className="col-span-4">
               <div className="bg-gradient-to-b from-white to-slate-50 rounded-[3rem] border border-slate-200/80 shadow-[0_25px_50px_-15px_rgba(15,23,42,0.12)] h-[680px] flex flex-col overflow-hidden">
                 <div className="p-8 border-b border-slate-100 bg-gradient-to-br from-white to-slate-50/50 flex justify-between items-center relative">
