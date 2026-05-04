@@ -22,7 +22,7 @@ const initialCandidates = [
   { id: 8, operator: 'Braga Tours', category: 'Tours' },
   { id: 9, operator: 'Destino4all - Turismo para Todos', category: 'Inclusão' },
   { id: 10, operator: 'Picoto Park', category: 'Aventura' },
-  { id: 11, operator: 'Cerveja Letra', category: 'Gastronomia' },
+  { id: 11, operator: 'Cerveja Letra', category: 'Enogastronómico' },
   { id: 12, operator: 'Docaria Cruz da Pedra', category: 'Gastronomia' },
   { id: 13, operator: 'Restaurante O Gato do Rio', category: 'Gastronomia' },
   { id: 14, operator: 'Quinta Cova da Raposa', category: 'Enoturismo' },
@@ -35,6 +35,7 @@ const initialCandidates = [
   { id: 21, operator: 'Centro de Juventude de Braga', category: 'Institucional' },
   { id: 22, operator: 'Museu dos Biscainhos', category: 'Institucional' },
   { id: 23, operator: 'Museu de Arqueologia D. Diogo de Sousa', category: 'Institucional' },
+  { id: 24, operator: 'Wine 66', category: 'Enogastronómico' },
 ];
 
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
