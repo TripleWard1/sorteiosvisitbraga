@@ -28,7 +28,7 @@ const initialCandidates = [
   { id: 14, operator: 'Quinta Cova da Raposa', category: 'Enoturismo' },
   { id: 15, operator: 'Solar das Bouças', category: 'Enoturismo' },
   { id: 16, operator: 'Inato Bistro', category: 'Gastronomia' },
-  { id: 17, operator: 'Brucelle', category: 'Cultura' },
+  { id: 17, operator: 'Joy4Fun', category: 'Atividades' },
   { id: 18, operator: 'Melia Braga Hotel & Spa', category: 'Alojamento' },
   { id: 19, operator: 'Innside by Melia Braga', category: 'Alojamento' },
   { id: 20, operator: 'Porta Nova Collection House', category: 'Alojamento' },
