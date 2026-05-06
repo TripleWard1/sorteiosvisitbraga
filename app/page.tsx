@@ -61,7 +61,7 @@ export default function SorteioBraga() {
   }, []);
 
   const runLottery = () => {
-    if (candidates.length === 0 || history.length >= 5) return;
+    if (candidates.length === 0 || history.length >= 7) return; 
     setIsSpinning(true);
     setWinner(null);
     setSpinIntensity(1);
@@ -160,26 +160,43 @@ export default function SorteioBraga() {
 
           <div className="space-y-4">
             <AnimatePresence>
-              {history.map((h, i) => (
-                <motion.div
-                  key={h.id}
-                  initial={{ opacity: 0, x: -30, scale: 0.95 }}
-                  animate={{ opacity: 1, x: 0, scale: 1 }}
-                  exit={{ opacity: 0, x: -30 }}
-                  transition={{ type: 'spring', stiffness: 260, damping: 22 }}
-                  className="relative p-5 bg-gradient-to-br from-slate-800/70 via-slate-800/40 to-slate-900/30 backdrop-blur-sm border border-slate-700/60 rounded-2xl flex items-center gap-4 group hover:border-red-500/70 transition-all duration-500 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_40px_-10px_rgba(239,68,68,0.3)] overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
+              {history.map((h, i) => {
+                const position = history.length - i;
+                const isSuplente = position > 5;
+                
+                return (
+                  <motion.div
+                    key={h.id}
+                    initial={{ opacity: 0, x: -30, scale: 0.95 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    exit={{ opacity: 0, x: -30 }}
+                    transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+                    className={`relative p-5 bg-gradient-to-br from-slate-800/70 via-slate-800/40 to-slate-900/30 backdrop-blur-sm border rounded-2xl flex items-center gap-4 group transition-all duration-500 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] overflow-hidden ${
+                      isSuplente ? 'border-slate-600/40 hover:border-slate-400/60' : 'border-slate-700/60 hover:border-red-500/70 hover:shadow-[0_15px_40px_-10px_rgba(239,68,68,0.3)]'
+                    }`}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
 
-                  <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-red-500 to-red-700 text-white flex items-center justify-center text-xs font-black italic shadow-[0_5px_20px_rgba(239,68,68,0.4)] ring-2 ring-red-500/20 relative z-10">
-                    {history.length - i}
-                  </div>
-                  <div className="flex flex-col min-w-0 relative z-10">
-                    <p className="font-bold text-white text-[11px] uppercase truncate tracking-tight">{h.operator}</p>
-                    <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-1 group-hover:text-red-300/80 transition-colors">{h.category}</p>
-                  </div>
-                </motion.div>
-              ))}
+                    <div className={`w-9 h-9 rounded-xl text-white flex items-center justify-center text-xs font-black italic shadow-lg ring-2 relative z-10 ${
+                      isSuplente 
+                      ? 'bg-gradient-to-br from-slate-500 to-slate-700 ring-slate-400/20' 
+                      : 'bg-gradient-to-br from-red-500 to-red-700 shadow-[0_5px_20px_rgba(239,68,68,0.4)] ring-red-500/20'
+                    }`}>
+                      {position}
+                    </div>
+                    <div className="flex flex-col min-w-0 relative z-10">
+                      <p className={`font-bold text-[11px] uppercase truncate tracking-tight ${isSuplente ? 'text-slate-300' : 'text-white'}`}>
+                        {h.operator}
+                      </p>
+                      <p className={`text-[9px] font-bold uppercase tracking-widest mt-1 transition-colors ${
+                        isSuplente ? 'text-slate-500 italic' : 'text-slate-400 group-hover:text-red-300/80'
+                      }`}>
+                        {isSuplente ? 'SUPLENTE' : h.category}
+                      </p>
+                    </div>
+                  </motion.div>
+                );
+              })}
             </AnimatePresence>
 
             {history.length === 0 && (
@@ -252,7 +269,7 @@ export default function SorteioBraga() {
             {[
               { label: 'Universo Inscritos', val: initialCandidates.length, icon: <Users size={20} /> },
               { label: 'Urna em Jogo', val: candidates.length, icon: <Activity size={20} /> },
-              { label: 'Vagas Sorteio', val: `${history.length} / 5`, icon: <Trophy size={20} />, active: true },
+              { label: 'Vagas Sorteio', val: `${history.length} / 7`, icon: <Trophy size={20} />, active: true },
             ].map((stat, i) => (
               <motion.div
                 key={i}
@@ -294,17 +311,11 @@ export default function SorteioBraga() {
             ))}
           </div>
 
-          {/* =========================================================
-              ARENA + LISTA
-              FIX CRÍTICO: arena sem overflow-hidden, sem max-w no winner card.
-              O winner card ocupa TODA a largura disponível da arena.
-          ========================================================= */}
           <div className="grid grid-cols-12 gap-10">
             {/* ARENA CENTRAL */}
             <div className="col-span-8">
               <div className="bg-gradient-to-br from-white via-white to-slate-50/70 rounded-[3rem] border border-slate-200/80 shadow-[0_30px_60px_-20px_rgba(15,23,42,0.15)] min-h-[680px] relative flex flex-col items-center justify-center p-10 group">
 
-                {/* Decorative glow — fica por baixo com pointer-events-none */}
                 <div className="absolute inset-0 rounded-[3rem] overflow-hidden pointer-events-none">
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px]" style={{
                     background: 'radial-gradient(circle, rgba(239,68,68,0.06) 0%, transparent 60%)'
@@ -317,13 +328,11 @@ export default function SorteioBraga() {
                   </div>
                 </div>
 
-                {/* Corner brackets */}
                 <div className="absolute top-6 left-6 w-12 h-12 border-t-2 border-l-2 border-red-500/20 rounded-tl-2xl pointer-events-none" />
                 <div className="absolute top-6 right-6 w-12 h-12 border-t-2 border-r-2 border-red-500/20 rounded-tr-2xl pointer-events-none" />
                 <div className="absolute bottom-6 left-6 w-12 h-12 border-b-2 border-l-2 border-red-500/20 rounded-bl-2xl pointer-events-none" />
                 <div className="absolute bottom-6 right-6 w-12 h-12 border-b-2 border-r-2 border-red-500/20 rounded-br-2xl pointer-events-none" />
 
-                {/* CONTEÚDO — ocupa a largura total da arena */}
                 <div className="relative w-full flex flex-col items-center z-10">
                   <AnimatePresence mode="wait">
                     {isSpinning ? (
@@ -384,7 +393,6 @@ export default function SorteioBraga() {
                         </div>
                       </motion.div>
                     ) : winner ? (
-                      // ======== WINNER CARD — ocupa largura total, sem max-w ========
                       <motion.div
                         key="winner"
                         initial={{ y: 30, opacity: 0, scale: 0.95 }}
@@ -395,7 +403,6 @@ export default function SorteioBraga() {
                       >
                         <div className="bg-gradient-to-br from-white via-white to-slate-50/80 border border-white px-12 py-14 rounded-[3rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.15)] relative text-center ring-1 ring-slate-200/50">
 
-                          {/* Shine sweep — contido dentro do card */}
                           <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-[3rem]">
                             <motion.div
                               initial={{ x: '-100%' }}
@@ -405,12 +412,10 @@ export default function SorteioBraga() {
                             />
                           </div>
 
-                          {/* Glow aura — contido */}
                           <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-[3rem]">
                             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-red-500/10 rounded-full blur-3xl" />
                           </div>
 
-                          {/* Trophy floating badge */}
                           <motion.div
                             initial={{ scale: 0, rotate: -180 }}
                             animate={{ scale: 1, rotate: 0 }}
@@ -475,22 +480,22 @@ export default function SorteioBraga() {
                         whileHover={{ scale: 1.04, y: -3 }}
                         whileTap={{ scale: 0.96 }}
                         onClick={runLottery}
-                        disabled={history.length >= 5}
+                        disabled={history.length >= 7} 
                         className={`group relative overflow-hidden px-20 py-7 rounded-[2rem] font-black text-[13px] uppercase tracking-[0.6em] transition-all italic
-                          ${history.length >= 5
+                          ${history.length >= 7
                             ? 'bg-slate-100 text-slate-300 cursor-not-allowed border border-slate-200'
                             : 'bg-gradient-to-br from-red-500 via-red-600 to-red-700 text-white shadow-[0_20px_40px_-10px_rgba(239,68,68,0.5)] hover:shadow-[0_25px_50px_-10px_rgba(239,68,68,0.7)] border-b-4 border-red-800'
                           }`}
                       >
-                        {history.length < 5 && (
+                        {history.length < 7 && (
                           <>
                             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 pointer-events-none" />
                             <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-t from-black/10 to-transparent pointer-events-none" />
                           </>
                         )}
                         <span className="relative z-10 flex items-center gap-3">
-                          {history.length >= 5 ? 'Sorteio Finalizado' : winner ? 'Nova Extração' : 'Começar Sorteio'}
-                          {history.length < 5 && <Sparkles size={14} className="opacity-80" />}
+                          {history.length >= 7 ? 'Sorteio Finalizado' : winner ? 'Nova Extração' : 'Começar Sorteio'}
+                          {history.length < 7 && <Sparkles size={14} className="opacity-80" />}
                         </span>
                       </motion.button>
                     )}
